@@ -1,62 +1,76 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gripp So‘rovnomasi</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Gripp so‘rovnomasi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Gripp simptomlari so‘rovnomasi</h1>
 
-    <div class="question" data-index="0">
-      <p>1. So‘nggi 24–48 soat ichida tana haroratingiz ko‘tarildimi?</p>
-      <input type="range" min="0" max="5" value="0" oninput="updateLabel(0, this.value)" />
-      <span id="label-0">0</span>
-    </div>
+<div class="app">
 
-    <div class="question" data-index="1">
-      <p>2. Isitma qanchalik davom etdi?</p>
-      <input type="range" min="0" max="5" value="0" oninput="updateLabel(1, this.value)" />
-      <span id="label-1">0</span>
-    </div>
+  <!-- RO‘YXATDAN O‘TISH -->
+  <div id="register">
+    <h1>🩺 Ro‘yxatdan o‘tish</h1>
 
-    <div class="question" data-index="2">
-      <p>3. Bosh og‘rig‘i bormi?</p>
-      <input type="range" min="0" max="5" value="0" oninput="updateLabel(2, this.value)" />
-      <span id="label-2">0</span>
-    </div>
+    <label>F.I.Sh</label>
+    <input type="text" id="name" placeholder="Ism Familiya">
 
-    <div class="question" data-index="3">
-      <p>4. Burun bitishi yoki burundan ajralma bormi?</p>
-      <input type="range" min="0" max="5" value="0" oninput="updateLabel(3, this.value)" />
-      <span id="label-3">0</span>
-    </div>
+    <label>Yosh</label>
+    <input type="number" id="age" min="1" max="120">
 
-    <div class="question" data-index="4">
-      <p>5. Yo‘tal (quruq yoki balg‘amli) bormi?</p>
-      <input type="range" min="0" max="5" value="0" oninput="updateLabel(4, this.value)" />
-      <span id="label-4">0</span>
-    </div>
+    <label>Jins</label>
+    <select id="gender">
+      <option value="">Tanlang</option>
+      <option>Erkak</option>
+      <option>Ayol</option>
+    </select>
 
-    <div class="question" data-index="5">
-      <p>6. Umumiy holsizlik / mushak og‘rig‘i bormi?</p>
-      <input type="range" min="0" max="5" value="0" oninput="updateLabel(5, this.value)" />
-      <span id="label-5">0</span>
-    </div>
+    <button onclick="startSurvey()">So‘rovnomani boshlash</button>
+  </div>
 
-    <div class="question" data-index="6">
-      <p>7. 1 haftada kasallangan odam bilan muloqot bo‘lganmi? Grippga qarshi emlanganmisiz?</p>
-      <input type="range" min="0" max="5" value="0" oninput="updateLabel(6, this.value)" />
-      <span id="label-6">0</span>
-    </div>
+  <!-- SO‘ROVNOMA -->
+  <div id="survey" class="hidden">
+    <h1>🦠 Gripp simptomlari</h1>
+    <form id="surveyForm">
+      <div id="questions"></div>
 
-    <button onclick="calculateScore()">Natijani hisoblash</button>
+      <!-- 7-savol -->
+      <div class="card">
+        <h3>7. 1 haftada kasallangan odam bilan muloqot bo‘lganmi?</h3>
+        <div class="options">
+          <label><input type="radio" name="q6" value="0" checked> Yo‘q</label>
+          <label><input type="radio" name="q6" value="1"> 1 marta</label>
+          <label><input type="radio" name="q6" value="2"> 2 marta</label>
+          <label><input type="radio" name="q6" value="3"> 3 marta</label>
+          <label><input type="radio" name="q6" value="4"> 4 marta</label>
+          <label><input type="radio" name="q6" value="5"> 5 va undan ortiq</label>
+        </div>
+      </div>
+
+      <!-- QoL -->
+      <div class="card qol">
+        <h3>Hayot sifati (QoL)</h3>
+        <div class="options">
+          <label><input type="radio" name="qol" value="0" checked> Juda yaxshi</label>
+          <label><input type="radio" name="qol" value="1"> Yaxshi</label>
+          <label><input type="radio" name="qol" value="2"> Qoniqarli</label>
+          <label><input type="radio" name="qol" value="3"> O‘rtacha yomon</label>
+          <label><input type="radio" name="qol" value="4"> Yomon</label>
+          <label><input type="radio" name="qol" value="5"> Juda yomon</label>
+          <label><input type="radio" name="qol" value="6"> Juda og‘ir</label>
+        </div>
+      </div>
+
+      <button type="button" onclick="calculate()">Natijani hisoblash</button>
+    </form>
 
     <div id="result"></div>
   </div>
 
-  <script src="app.js"></script>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>

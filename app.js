@@ -1,21 +1,67 @@
-function updateLabel(index, value) {
-  document.getElementById("label-" + index).innerText = value;
+const questions = [
+  "So‘nggi 24–48 soatda tana haroratingiz ko‘tarildimi?",
+  "Isitma qanchalik davom etdi?",
+  "Bosh og‘rig‘i (intoksikatsiya belgisi) bormi?",
+  "Burun bitishi yoki burundan ajralma bormi?",
+  "Yo‘tal (quruq yoki balg‘amli) bormi?",
+  "Umumiy holsizlik / mushak og‘rig‘i bormi?"
+];
+
+const answers = [
+  "Yo‘q",
+  "Yengil",
+  "O‘rtacha",
+  "Namoyon, sezilarli",
+  "Kuchli",
+  "Juda kuchli, hayotni cheklovchi"
+];
+
+// Savollarni chiqarish
+const qDiv = document.getElementById("questions");
+questions.forEach((q, i) => {
+  let html = `<div class="card"><h3>${i+1}. ${q}</h3><div class="options">`;
+  for (let v = 0; v <= 5; v++) {
+    html += `<label><input type="radio" name="q${i}" value="${v}" ${v===0?"checked":""}> ${answers[v]}</label>`;
+  }
+  html += `</div></div>`;
+  qDiv.innerHTML += html;
+});
+
+// Ro‘yxatdan o‘tish
+function startSurvey() {
+  const name = document.getElementById("name").value.trim();
+  const age = document.getElementById("age").value;
+  const gender = document.getElementById("gender").value;
+
+  if (!name || !age || !gender) {
+    alert("Iltimos, barcha maydonlarni to‘ldiring!");
+    return;
+  }
+
+  document.getElementById("register").classList.add("hidden");
+  document.getElementById("survey").classList.remove("hidden");
 }
 
-function calculateScore() {
-  const scores = [];
+// Hisoblash
+function calculate() {
+  let total = 0;
+
   for (let i = 0; i < 7; i++) {
-    scores.push(parseInt(document.getElementById("label-" + i).innerText));
+    total += parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
   }
-  const total = scores.reduce((a, b) => a + b, 0);
 
-  let message = "";
-  if (total <= 7) message = "Kasallik ehtimoli past.";
-  else if (total <= 14) message = "Yengil virusli infeksiya.";
-  else if (total <= 22) message = "O‘rtacha gripp ehtimoli.";
-  else if (total <= 29) message = "Yuqori gripp ehtimoli.";
-  else message = "Og‘ir holat — shifokorga murojaat qiling!";
+  const qol = document.querySelector('input[name="qol"]:checked').value;
 
-  document.getElementById("result").innerText =
-    "Jami ball: " + total + "\n" + message;
+  let risk = "";
+  if (total <= 7) risk = "Past ehtimol";
+  else if (total <= 14) risk = "Yengil holat";
+  else if (total <= 22) risk = "O‘rtacha holat";
+  else if (total <= 29) risk = "Yuqori ehtimol";
+  else risk = "Og‘ir holat";
+
+  document.getElementById("result").innerHTML = `
+    📊 IPSS (balllar yig‘indisi): <b>${total}</b><br>
+    🦠 Baholash: <b>${risk}</b><br><br>
+    ❤️ Hayot sifati (QoL): <b>${qol} / 6</b>
+  `;
 }
